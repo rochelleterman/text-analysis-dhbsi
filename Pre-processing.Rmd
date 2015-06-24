@@ -5,9 +5,6 @@ date: "June 24, 2015"
 output: html_document
 ---
 
-### Credits: 
-1. A lot of the preprocessing stuff came from [here](http://onepager.togaware.com/TextMiningO.pdf)
-
 ### Required Packages
 First load our required packages:
 ```{r}
