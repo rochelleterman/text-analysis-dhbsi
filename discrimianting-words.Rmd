@@ -33,7 +33,7 @@ dtm <- create_matrix(docs[["text"]], language="english", removeNumbers=TRUE,
 
 ```
 
-## 1. Discriminating Word Analysis
+## 1. Standardized Mean Difference
 
 This is one method to calculate discriminating words. There are many ways to do this. Here we use a standardized mean difference score. It's like a difference of proportion analysis but normalized, as per the following equation:
 

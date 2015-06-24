@@ -6,6 +6,7 @@ output: html_document
 ---
 
 ### Required Packages
+
 First load our required packages:
 ```{r}
 setwd("~/Dropbox/berkeley/PS239T/text-analysis")
