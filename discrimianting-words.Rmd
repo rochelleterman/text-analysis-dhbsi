@@ -57,7 +57,7 @@ means.sessions <- colMeans(sessions)
 var.sessions <- colVars(as.matrix(sessions))
   
 #calculate overall score
-score <- (means.shelby - means.sessions) / sqrt((var.shelby/n.shelby) + (var.sessions/n.shelby))
+score <- (means.shelby - means.sessions) / sqrt((var.shelby/n.shelby) + (var.sessions/n.sessions))
 
 # sort and view
 score <- sort(score)
