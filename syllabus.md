@@ -10,7 +10,7 @@ Students are strongly encourged to complete [this brief tutorial](https://www.co
 
 Please read the following to get a sense of what we'll be doing:
 
-1. Ted Underwoord. [Seven ways humanists are using computers to understand text](http://tedunderwood.com/2015/06/04/seven-ways-humanists-are-using-computers-to-understand-text/)
+1. Ted Underwood. [Seven ways humanists are using computers to understand text](http://tedunderwood.com/2015/06/04/seven-ways-humanists-are-using-computers-to-understand-text/)
 2. Justin Grimmer and Brandon Stewart. [Text as Data: The Promise and Pitfalls of Automatic ContentAnalysis Methods for Political Texts](https://web.stanford.edu/~jgrimmer/tad2.pdf)
 
 
@@ -76,5 +76,9 @@ Please read the following to get a sense of what we'll be doing:
 #### Friday: 8/21
 
 9 – 11: **Quantifying Style: Grammar, Alliteration, and other Poetic Concerns**
+* Prosody as "Pre-Computer" DH / The Problem of Measuring Style
+* Counting & P-Values
+* POS-Tagging
+* Markov Chains & Entropy
 
 11 – 12: **Closing Up, Open Work Time and Q & A.**
