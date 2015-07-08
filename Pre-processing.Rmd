@@ -121,7 +121,7 @@ Note: we can use RTextTools to go directly from text vector to DTM, which is pro
 
 ```{r}
 # make DTM
-dtm <- create_matrix(docs[["text"]], language="english", removeNumbers=TRUE,
+dtm <- create_matrix(documents$text, language="english", removeNumbers=TRUE,
                        stemWords=TRUE, removeSparseTerms=.9, toLower = TRUE, 
                        removePunctuation = TRUE)
 ```
