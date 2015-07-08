@@ -73,7 +73,7 @@ See what transformations are available TM package
 getTransformations()
 ```
 
-The function `tm.map()` is used to apply one of these transformations across all documents. 
+The function `tm_map()` is used to apply one of these transformations across all documents. 
 
 We can also use regular R functions for custom transformations using the `content_transformer()` function.
 
