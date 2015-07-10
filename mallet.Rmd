@@ -7,7 +7,7 @@ output: html_document
 ## 0. Prepare
 ```{r}
 #read in CSV file
-documents <-read.csv("Data/shelbysessions.csv", header=TRUE)
+documents <-read.csv("Data/shelbysessions.csv", header=TRUE, colClasses=c("text" = "character"))
 # turn into corpus
 docs <- Corpus(VectorSource(documents$text))
 # create DTM
