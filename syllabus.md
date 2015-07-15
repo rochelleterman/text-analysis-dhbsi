@@ -17,7 +17,7 @@ Please read the following to get a sense of what we'll be doing:
 ### Software Required
 
 - R (latest version)
-- Studio
+- RStudio
 - Java Developers Kit 8+
 - Python 2.7 (Anaconda distribution)
 - Specific packages TBD
