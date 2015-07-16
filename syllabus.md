@@ -75,10 +75,14 @@ Please read the following to get a sense of what we'll be doing:
 
 #### Friday: 8/21
 
-9 – 11: **Quantifying Style: Grammar, Alliteration, and other Poetic Concerns**
-* Prosody as "Pre-Computer" DH / The Problem of Measuring Style
-* Counting & P-Values
-* POS-Tagging
-* Markov Chains & Entropy
+9 – 11: Literary Concerns
+* Poetry
+  * Dictionary Look-Ups with a Vengeance
+  * Alliteration: Counting & P-Values
+  * Meter: Prosodic (program)
+* Literature
+  * Part-of-Speech Tagging
+  * Closing Thought about Narrative
+
 
 11 – 12: **Closing Up, Open Work Time and Q & A.**
