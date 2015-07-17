@@ -18,7 +18,6 @@ Please read the following to get a sense of what we'll be doing:
 
 - R (latest version)
 - RStudio
-- Java Developers Kit 8+
 - Python 2.7 (Anaconda distribution)
 - Specific packages TBD
 
