@@ -18,6 +18,7 @@ library(qdapDictionaries)
 library(dplyr) # Data preparation and pipes $>$
 library(ggplot2) # for plotting word frequencies
 library(SnowballC) # for stemming
+library(rmngb) # for statistics
 ```
 
 ## 0. Prepare
