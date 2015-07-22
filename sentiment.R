@@ -1,3 +1,7 @@
+# based on: http://anythingbutrbitrary.blogspot.com/2014/01/statistics-meets-rhetoric-text-analysis.html
+
+
+
 library(ggplot2)
 library(scales)
 library(data.table)
