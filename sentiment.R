@@ -1,7 +1,5 @@
 # based on: http://anythingbutrbitrary.blogspot.com/2014/01/statistics-meets-rhetoric-text-analysis.html
 
-
-
 library(ggplot2)
 library(scales)
 library(data.table)
@@ -18,36 +16,66 @@ raj.dat[, pct.complete := raj.dat$cumsum / sum(raj.dat$wc)]
 raj.dat[, pct.complete.100 := pct.complete * 100]
 
 # calculate polarity
-pol.df <- polarity(rajSPLIT$dialogue)$all
-raj.dat[, words := pol.df$wc]
-raj.dat[, pol := pol.df$polarity]
+poldat <- with(rajSPLIT, polarity(dialogue, act, constrain = TRUE))
+counts(poldat)[1:10,]
+polcount <- na.omit(counts(poldat)$polarity) # get vector of just the polarity scores
 
-with(raj.dat, plot(pct.complete, pol))
+# put it into a data frame
+len <- length(polcount)
+po.df <- data.frame(polarity = polcount, Time=1:len)
 
-my.theme <- 
-  theme(plot.background = element_blank(), # Remove background
-        panel.grid.major = element_blank(), # Remove gridlines
-        panel.grid.minor = element_blank(), # Remove more gridlines
-        panel.border = element_blank(), # Remove border
-        panel.background = element_blank(), # Remove more background
-        axis.ticks = element_blank(), # Remove axis ticks
-        axis.text=element_text(size=14), # Enlarge axis text font
-        axis.title=element_text(size=16), # Enlarge axis title font
-        plot.title=element_text(size=24, hjust=0)) # Enlarge, left-align title
+## Calculate background rectangles
+ends <- cumsum(rle(counts(poldat)$act)$lengths)
+starts <- c(1, head(ends + 1, -1))
+rects <- data.frame(xstart = starts, xend = ends + 1,
+                    Act = c("I", "II", "III", "IV", "V"))
 
-CustomScatterPlot <- function(gg)
-  return(gg + geom_point(color="grey60") + # Lighten dots
-           stat_smooth(color="royalblue", fill="lightgray", size=1.4) + 
-           xlab("Percent complete (by word count)") + 
-           scale_x_continuous(labels = percent) + my.theme)
+# plot
+ggplot() + theme_bw() +
+  geom_rect(data = rects, aes(xmin = xstart, xmax = xend,
+                              ymin = -Inf, ymax = Inf, fill = Act), alpha = 0.17) +
+  geom_line(data = cumpolarity, aes(y=polarity, x = Time), size=1, color = "grey60") +
+  geom_smooth(data = cumpolarity, aes(y=polarity, x = Time), color="royalblue", fill="lightgray", size=1.4) +
+  geom_hline(y=mean(polcount), color="grey30", size=1, alpha=.3, linetype=2) +
+  annotate("text", x = mean(ends[1:2]), y = mean(polcount), color="grey30",
+           label = "Average Polarity", vjust = .3, size=3) +
+  ylab("Average Polarity") + xlab("Duration") +
+  scale_x_continuous(expand = c(0,0)) +
+  geom_text(data=rects, aes(x=(xstart + xend)/2, y=-.04,
+                            label=paste("Act", Act)), size=3) +
+  guides(fill=FALSE) +
+  scale_fill_brewer(palette="Set1")
 
-CustomScatterPlot(ggplot(raj.dat, aes(pct.complete, pol)) +
-                    ylab("Sentiment (sentence-level polarity)") + 
-                    ggtitle("Sentiment of Romeo and Juliet"))
+# zoom
 
-# zoom in
-CustomScatterPlot(ggplot(raj.dat, aes(pct.complete, pol)) +
-                    ylab("Sentiment (sentence-level polarity)") + 
-                    ggtitle("Sentiment of Romeo and Juliet")) +
-  coord_cartesian(ylim = c(-.3, .3))
+ggplot() + theme_bw() +
+  geom_rect(data = rects, aes(xmin = xstart, xmax = xend,
+                              ymin = -Inf, ymax = Inf, fill = Act), alpha = 0.17) +
+  #geom_line(data = cumpolarity, aes(y=polarity, x = Time), size=1, color = "grey60") +
+  geom_smooth(data = cumpolarity, aes(y=polarity, x = Time), color="royalblue", fill="lightgray", size=1.4) +
+  geom_hline(y=mean(polcount), color="grey30", size=1, alpha=.3, linetype=2) +
+  annotate("text", x = mean(ends[1:2]), y = mean(polcount), color="grey30",
+           label = "Average Polarity", vjust = .3, size=3) +
+  ylab("Average Polarity") + xlab("Duration") +
+  scale_x_continuous(expand = c(0,0)) +
+  geom_text(data=rects, aes(x=(xstart + xend)/2, y=-.04,
+                            label=paste("Act", Act)), size=3) +
+  guides(fill=FALSE) +
+  scale_fill_brewer(palette="Set1")
+
+##################
+### Thriller ####
+##################
+
+# read
+thriller <- read.csv("Data/thriller.csv")
+# split
+thril.split <- sentSplit(thriller, "Lyrics")
+# polarity
+(poldat <- with(thril.split, polarity(Lyrics, Song)))
+# have a peak
+counts(poldat)[1:10,]
+# plot
+plot(poldat)
+
 
