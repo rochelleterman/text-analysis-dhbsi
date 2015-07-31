@@ -114,6 +114,7 @@ ggplot() + theme_bw() +
   guides(fill=FALSE) +
   scale_fill_brewer(palette="Set1")
 
+
 # Zoom in on that smoothed line:
 
 ggplot() + theme_bw() +
