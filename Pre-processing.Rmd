@@ -133,7 +133,9 @@ inspect(dtm[1:5,1000:1005])
 Note: we can use RTextTools to go directly from text vector to DTM, which is probably easier. If you read your corpus using Option 1 above (Section 1.1) you must first convert your corpus into a dataframe
 
 ```{r}
-# Convert corpus to data.frame.
+
+# Read corpus directly from dir and convert to data.frame.
+docs <- Corpus(DirSource("Data/MachText"))
 docs.df<-data.frame(text=unlist(sapply(docs, `[`, "content")), 
     stringsAsFactors=F)
 ```
@@ -141,10 +143,16 @@ docs.df<-data.frame(text=unlist(sapply(docs, `[`, "content")),
 If you read in your corpus as a CSV, you should already have a dataframe (in this case, `docs.df`) in your environment.
 
 ```{r}
-# make DTM
+# Read corpus from csv
+docs.df <- read.csv("Data/mach.csv")
+```
+
+Now we can make out DTM in one step.
+
+```{r}
+# Convert to DTM
 dtm <- create_matrix(docs.df$text, language="english", removeNumbers=TRUE,
-                       stemWords=TRUE, removeSparseTerms=.95, toLower = TRUE, 
-                       removePunctuation = TRUE)
+                       stemWords=TRUE, toLower = TRUE, removePunctuation = TRUE)
 ```
 
 ### 1.4 Exploring the DTM
@@ -208,8 +216,8 @@ We can remove sparse terms and thus inrease efficency
 
 ```{r}
 dtm.s <- removeSparseTerms(dtm,.99)
-dtm # 325 terms
-dtm.s # 188 terms
+dtm # 2365 terms
+dtm.s # 1326 terms
 ```
 
 ### 1.5 Exporting the DTM
@@ -228,5 +236,4 @@ dtm$section <- as.factor(dtm$section)
 
 # check to see if they're the same number of documents per author
 summary(dtm$section)
-summary(documents$author)
 ```
