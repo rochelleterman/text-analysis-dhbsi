@@ -35,25 +35,36 @@ getSources()
 getReaders()
 ```
 
-We can read a corpus from a directory that contains text files, each document a different file
-```{r}
-documents <- Corpus(DirSource("Data/Sessions")) 
-documents
-```
+Here we'll be going over two main options to input a corpus. 
 
-Or we can read from a csv of documents, with each row being a document, and columns for metadata (information about each document)
-
+Option 1) We can read a corpus from a directory that contains text files, each document a different file.
 ```{r}
-documents <-read.csv("Data/shelbysessions.csv", header=TRUE) #read in CSV file
-docs <- Corpus(VectorSource(documents$text))
+docs <- Corpus(DirSource("Data/MachText")) 
 docs
 ```
 
-We can inspect the documents using inspect()
+Option 2) We can read from a csv of documents, with each row being a document, and columns for text and metadata (information about each document). This is the easiest option if you have metadata.
 
 ```{r}
+docs.df <-read.csv("Data/mach.csv", header=TRUE) #read in CSV file
+docs <- Corpus(VectorSource(docs.df$text))
+docs
+```
+
+Once we have the corpus, we can inspect the documents using inspect()
+
+```{r}
+# see the 16th document
 inspect(docs[16])
 ```
+
+And see the text using the `as.chracter`
+
+```{r}
+ # see content for 16th document
+as.character(docs[[16]])
+```
+
 ### 1.2 Preprocessing
 
 Many text analysis applications follow a similar 'recipe' for preprecessing, involving:
@@ -84,27 +95,27 @@ toSpace <- content_transformer(function(x, pattern) gsub(pattern, " ", x))
 docs <- tm_map(docs, toSpace, "/")
 docs <- tm_map(docs, toSpace, "@")
 docs <- tm_map(docs, toSpace,"\\|")
-docs[[100]]
+as.character(docs[[16]])
 ```
 
 We can basic transformations using the build in `tm_map` tools.
 
 ```{r}
 docs <- tm_map(docs, content_transformer(tolower)) # convert all text to lower case
-inspect(docs[16])
+as.character(docs[[16]])
 docs <- tm_map(docs, removePunctuation) # remove Puncturation
-inspect(docs[16])
+as.character(docs[[16]])
 docs <- tm_map(docs, removeNumbers) # remove Numbers
-inspect(docs[16])
+as.character(docs[[16]])
 docs <- tm_map(docs, removeWords, stopwords("english")) # remove common words
 stopwords("english") # check out what was removed
-inspect(docs[16])
-docs <- tm_map(docs, removeWords, c("shelby","sessions")) # remove own stop words
-inspect(docs[16])
+as.character(docs[[16]])
+docs <- tm_map(docs, removeWords, c("prince")) # remove own stop words
+as.character(docs[[16]])
 docs <- tm_map(docs, stripWhitespace) # strip white space
-inspect(docs[16])
+as.character(docs[[16]])
 docs <- tm_map(docs, stemDocument) # stem the document
-inspect(docs[16])
+as.character(docs[[16]])
 ```
 
 ### 1.3 Creating a DTM
@@ -113,16 +124,26 @@ A document term matrix is simply a matrix with documents as the rows and terms a
 ```{r}
 dtm <- DocumentTermMatrix(docs)
 dtm
-dim(dtm) # how many documents? how many terms?
-inspect(dtm[1:5,1000:1005]) # take a quick look
+# how many documents? how many terms?
+dim(dtm)
+# take a quick look
+inspect(dtm[1:5,1000:1005])
 ```
 
-Note: we can use RTextTools to go directly from text vector to DTM, which is probably easier.
+Note: we can use RTextTools to go directly from text vector to DTM, which is probably easier. If you read your corpus using Option 1 above (Section 1.1) you must first convert your corpus into a dataframe
+
+```{r}
+# Convert corpus to data.frame.
+docs.df<-data.frame(text=unlist(sapply(docs, `[`, "content")), 
+    stringsAsFactors=F)
+```
+
+If you read in your corpus as a CSV, you should already have a dataframe (in this case, `docs.df`) in your environment.
 
 ```{r}
 # make DTM
-dtm <- create_matrix(documents$text, language="english", removeNumbers=TRUE,
-                       stemWords=TRUE, removeSparseTerms=.9, toLower = TRUE, 
+dtm <- create_matrix(docs.df$text, language="english", removeNumbers=TRUE,
+                       stemWords=TRUE, removeSparseTerms=.95, toLower = TRUE, 
                        removePunctuation = TRUE)
 ```
 
@@ -131,8 +152,9 @@ dtm <- create_matrix(documents$text, language="english", removeNumbers=TRUE,
 We can obtain the term frequencies as a vector by converting the document term matrix into a matrix and summing the column counts:
 
 ```{r}
+ # how many terms?
 freq <- colSums(as.matrix(dtm))
-length(freq) # how many terms?
+length(freq)
 ```
 
 By ordering the frequencies we can list the most frequent terms and the least frequent terms:
@@ -154,14 +176,15 @@ tail(table(freq),15)
 # plot
 plot(table(freq))
 ```
+
 Exploring word frequences
 
 ```{r}
 # Have a look at common words
-findFreqTerms(dtm, lowfreq=1000) # words that appear at least 1000 times
+findFreqTerms(dtm, lowfreq=100) # words that appear at least 100 times
 
-# Which words correlate with "congress"?
-findAssocs(dtm, "fire", 0.7)
+# Which words correlate with "war"?
+findAssocs(dtm, "war", 0.3)
 
 # plot
 freq <- sort(colSums(as.matrix(dtm)),decreasing=TRUE)
@@ -171,7 +194,7 @@ wf <- data.frame(word=names(freq), freq=freq)
 head(wf)
 
 library(ggplot2)
-subset(wf, freq>1000) %>%
+subset(wf, freq>50) %>%
   ggplot (aes(word, freq)) +
   geom_bar (stat ="identity") +
   theme(axis.text.x=element_text(angle=45,hjust=1))
@@ -185,8 +208,8 @@ We can remove sparse terms and thus inrease efficency
 
 ```{r}
 dtm.s <- removeSparseTerms(dtm,.99)
-dtm # 6506 terms
-dtm.s # 1849 terms
+dtm # 325 terms
+dtm.s # 188 terms
 ```
 
 ### 1.5 Exporting the DTM
@@ -198,10 +221,12 @@ We can convert a DTM to a matrix or data.frame in order to write to a csv, add m
 dtm <- as.data.frame(as.matrix(dtm))
 names(docs)
 
-# add column for author
-dtm$document_author <- documents$author
+# add fake column for section
+dtm$section[1:100] <- "Section 1"
+dtm$section[101:188] <- "Section 2"
+dtm$section <- as.factor(dtm$section)
 
 # check to see if they're the same number of documents per author
-summary(dtm$document_author)
+summary(dtm$section)
 summary(documents$author)
 ```
