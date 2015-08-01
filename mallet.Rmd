@@ -4,14 +4,28 @@ author: "Rochelle Terman"
 date: "June 24, 2015"
 output: html_document
 ---
+
+#### Required packages
+
+First load our required packages
+
+```{r}
+setwd("~/Dropbox/berkeley/Dissertation/Data and Analyais/Git Repos/text-analysis-dhbsi")
+rm(list=ls())
+library(mallet) # a wrapper around the Java machine learning tool MALLET
+```
+
 ## 0. Prepare
+
+First let's read in our data. The corpus we'll be using today is a set of New York Times and Washington Post articles about women in non-US countries.
+
 ```{r}
 #read in CSV file
 documents <- read.csv("Data/women.csv", stringsAsFactors = F)
 names(documents)
 ```
 
-## 1. Mallet
+## 1. Estimate Mallet Topics
 
 Is a popular topic modelling software application. Mallet is in java - which means it's fast - but R has a Mallet wrapper package.
 
@@ -80,6 +94,8 @@ west.topic.words <- mallet.subset.topic.words(topic.model, documents$region == "
 mallet.top.words(topic.model, mena.topic.words[5,])
 mallet.top.words(topic.model, west.topic.words[5,])
 ```
+
+## 2. Visualize
 
 We can visualize topics as words clouds.
 
