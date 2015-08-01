@@ -5,14 +5,15 @@ date: "June 24, 2015"
 output: html_document
 ---
 
-#### Required packages
+### Setup Environment
 
-First load our required packages
+First let's load our required packages.
 
 ```{r}
 setwd("~/Dropbox/berkeley/Dissertation/Data and Analyais/Git Repos/text-analysis-dhbsi")
 rm(list=ls())
 library(mallet) # a wrapper around the Java machine learning tool MALLET
+library(wordcloud) # to visualize wordclouds
 ```
 
 ## 0. Prepare
@@ -101,7 +102,6 @@ We can visualize topics as words clouds.
 
 ```{r}
 # be sure you have installed the wordcloud package
-library(wordcloud)
 topic.num <- 1
 num.top.words<-100
 topic.top.words <- mallet.top.words(topic.model, topic.words[1,], 100)

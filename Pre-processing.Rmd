@@ -5,9 +5,10 @@ date: "June 24, 2015"
 output: html_document
 ---
 
-### Required Packages
+### Setup Environment
 
-First load our required packages:
+First let's load our required packages.
+
 ```{r}
 setwd("~/Dropbox/berkeley/Dissertation/Data and Analyais/Git Repos/text-analysis-dhbsi")
 rm(list=ls())
