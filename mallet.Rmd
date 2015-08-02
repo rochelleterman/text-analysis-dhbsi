@@ -26,6 +26,7 @@ First let's read in our data. The corpus we'll be using today is a set of New Yo
 #read in CSV file
 documents <- read.csv("Data/women.csv", stringsAsFactors = F)
 names(documents)
+documents$X <- NULL
 ```
 
 ## 1. Estimate Mallet Topics
