@@ -5,7 +5,7 @@ date: "June 24, 2015"
 output: html_document
 ---
 
-### Setup Environment
+### Required Pakcages
 
 First let's load our required packages.
 

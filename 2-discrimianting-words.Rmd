@@ -5,18 +5,12 @@ date: "June 24, 2015"
 output: html_document
 ---
 
-
 ### Required Packages
+
 ```{r}
 setwd("~/Dropbox/berkeley/PS239T/text-analysis")
 rm(list=ls())
-library(tm) # Framework for text mining
 library(RTextTools) # a machine learning package for text classification written in R
-library(mallet) # A wrapper around the Java machine learning tool MALLET
-library(qdap) # Quantiative discourse analysis of transcripts
-library(qdapDictionaries)
-library(dplyr) # Data preparation and pipes $>$
-library(ggplot2) # for plotting word frequencies
 library(SnowballC) # for stemming
 library(matrixStats) # for statistics
 ```
