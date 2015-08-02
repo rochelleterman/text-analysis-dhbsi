@@ -23,7 +23,7 @@ library(SnowballC) # for stemming
 
 ## 1. Prepare a Corpus
 
-A corpus is a collection of texts, usually stored electronically, and from which we perform our analysis. A corpus might be a collection of news articles from Reuters or the published works of Shakespeare. Within each corpus we will have separate articles, stories, volumes, each treated as a separate entity or record.
+A corpus is a collection of texts, usually stored electronically, and from which we perform our analysis. A corpus might be a collection of news articles from Reuters or the published works of Shakespeare. Within each corpus we will have separate articles, stories, volumes, each treated as a separate entity or record. Each unit is called a "document"
 
 Documents come in a variety of formats, but plain text is best.
 

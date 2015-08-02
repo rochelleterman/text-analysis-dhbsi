@@ -5,6 +5,8 @@ date: "June 24, 2015"
 output: html_document
 ---
 
+Mallet is a popular topic modelling software application. Mallet is in java - which means it's fast - but R has a Mallet wrapper package.
+
 ### Setup Environment
 
 First let's load our required packages.
@@ -27,8 +29,6 @@ names(documents)
 ```
 
 ## 1. Estimate Mallet Topics
-
-Is a popular topic modelling software application. Mallet is in java - which means it's fast - but R has a Mallet wrapper package.
 
 ```{r}
 # we first have to create an 'id' column
