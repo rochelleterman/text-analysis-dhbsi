@@ -108,7 +108,7 @@ sample(names(which(clust$cluster==6)),4)
 
 Label 6: ?
 
-## 2. Cluster Quality
+## 3. Cluster Quality
 
 Measure the cohesiveness and exclusivity of each cluster. What is the most exclusive and most cohesive topics? What are the least? Does this align with your reading of the texts?
 
