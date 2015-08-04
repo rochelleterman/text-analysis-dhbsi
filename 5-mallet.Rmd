@@ -120,14 +120,14 @@ This is some extra stuff from https://github.com/benmarwick/dayofarchaeology
 ## transpose and normalize the doc topics
 topic.docs <- t(doc.topics)
 topic.docs <- topic.docs / rowSums(topic.docs)
-write.csv(topic.docs, "Analysis/topic-docs.csv")
+write.csv(topic.docs, "topic-docs.csv")
 
 ## Get a vector containing short names for the topics
 topics.labels <- rep("", n.topics)
 for (topic in 1:n.topics) topics.labels[topic] <- paste(mallet.top.words(topic.model, topic.words[topic,], num.top.words=5)$words, collapse=" ")
 # have a look at keywords for each topic
 topics.labels
-write.csv(topics.labels, "Analysis/topics-labels.csv")
+write.csv(topics.labels, "topics-labels.csv")
 
 # create data.frame with columns as docs and rows as topics
 topic_docs <- data.frame(topic.docs)
