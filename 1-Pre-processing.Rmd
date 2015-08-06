@@ -119,19 +119,28 @@ docs <- tm_map(docs, stemDocument) # stem the document
 as.character(docs[[16]])
 ```
 
+#TODO: Add something about tf-idf weighting
+
 ### 1.3 Creating a DTM
 
 A document term matrix is simply a matrix with documents as the rows and terms as the columns and a count of the frequency of words as the cells of the matrix. We use `DocumentTermMatrix()` to create the matrix:
 ```{r}
 dtm <- DocumentTermMatrix(docs)
 dtm
-# how many documents? how many terms?
-dim(dtm)
-# take a quick look
-inspect(dtm[1:5,1000:1005])
 ```
 
-Note: we can use RTextTools to go directly from text vector to DTM, which is probably easier. If you read your corpus using Option 1 above (Section 1.1) you must first convert your corpus into a dataframe
+`tm` also lets us convert a corpus to a DTM while completing the pre-processing steps in one step.
+
+```{r}
+dtm <- DocumentTermMatrix(docs,
+           control = list(stopwords = TRUE,
+                          tolower = TRUE,
+                          removeNumbers = TRUE,
+                          removePunctuation = TRUE,
+                          stemming=TRUE))
+```
+
+BONUS: we can use `rTextTools` to go directly from dataframe to DTM, completing pre-processing stems automatically. If you read your corpus using Option 1 above (Section 1.1) you must first convert your corpus into a dataframe.
 
 ```{r}
 
@@ -157,6 +166,15 @@ dtm <- create_matrix(docs.df$text, language="english", removeNumbers=TRUE,
 ```
 
 ### 1.4 Exploring the DTM
+
+Let's look at the structure of our DTM.
+
+```{r}
+# how many documents? how many terms?
+dim(dtm)
+# take a quick look
+inspect(dtm[1:5,1000:1005])
+```
 
 We can obtain the term frequencies as a vector by converting the document term matrix into a matrix and summing the column counts:
 
