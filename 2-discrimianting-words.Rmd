@@ -106,6 +106,8 @@ tail(score,10) # top austen words
 
 A more nuanced comparison of word use in two groups takes account of the variability in word use. Consider for instance the word “green” in Austen and Brontë. In Austen the word occurs with the following rates: 0.01, 0.03, and 0.06 (0.03 on average). In Brontë the word is consistently more frequent: 0.16, 0.36, and 0.22 (0.24 on average). These two groups of rates look different. But consider how our judgment might change if the rates observed in Brontë’s novels were much more variable, say, 0.03, 0.04, and 0.66 (0.24 on average). Although the averages remain the same, the difference does not seem so pronounced; with only one observation (0.66) noticeably greater than we find in Austen, we might reasonably doubt that there is evidence of a systematic difference between the authors.
 
+The following metric takes variation into account.
+
 ```{r}
 # start again with turning original rate dtm into dataframe
 dtm.m <- as.data.frame(as.matrix(dtm))
@@ -116,8 +118,6 @@ austen <- dtm.m[1:3,]
 bronte <- dtm.m[4:6,]
 
 # calculate means and vars
-n.austen <- sum(colSums(austen))
-n.bronte <- sum(colSums(bronte))
 means.austen <- colMeans(austen)
 var.austen <- colVars(as.matrix(austen))
 means.bronte <- colMeans(bronte)
@@ -125,7 +125,7 @@ var.bronte <- colVars(as.matrix(bronte))
   
 #calculate overall score
 num <- (means.austen - means.bronte) 
-denom <- sqrt((var.austen/n.austen) + (var.bronte/n.bronte))
+denom <- sqrt((var.austen/3) + (var.bronte/3))
 score <- num / denom
 
 # remove -inf and -inf
@@ -138,10 +138,13 @@ head(score,10) # top bronte words
 tail(score,10) # top austen words
 ```
 
-standard log odds
+Yet another metric is "standard log odds", used in Monroe, Colaresi, and Quinn (2009)
 
 ```{r}
 # calculate means and vars
+n.austen <- sum(colSums(austen))
+n.bronte <- sum(colSums(bronte))
+
 pi.austen <- (colSums(austen) + 1) / (n.austen+ ncol(austen)-1)
 pi.bronte <- (colSums(bronte) + 1) / (n.bronte + ncol(bronte)-1)  
 
