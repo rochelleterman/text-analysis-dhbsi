@@ -20,134 +20,86 @@ library(RTextTools)
 ## 0. Prepare Data
 
 ```{r}
-# Read corpus from csv
-docs.df <- read.csv("Data/mach.csv", stringsAsFactors = F)
-# Convert to DTM
-dtm <- create_matrix(docs.df$text, language="english", removeNumbers=TRUE,
-                     stemWords=TRUE, toLower = TRUE, removePunctuation = TRUE, 
-                     removeSparseTerms = .97)
+docs <- Corpus(DirSource("Data/British_Fiction/Selection"))
+docs
+dtm <- DocumentTermMatrix(docs)
+            
+# note that stemming / weighting really affects stuff here. Change it up to see.
+dtm <- DocumentTermMatrix(docs,
+           control = list(weighting =function(x) weightTfIdf(x, normalize = TRUE),
+                          stopwords = T,
+                          tolower = TRUE,
+                          removeNumbers = TRUE,
+                          removePunctuation = TRUE,
+                          stemming=TRUE))
+dim(dtm)
+inspect(dtm[,100:104])
+dtm.m <- as.matrix(dtm)
 ```
-## 1. Estimate K-means clusters
+
+##Euclidean Distance and hierarchical clustering
+
+```{r}
+d <- dist(dtm.m, method = "euclidean")
+plot(hclust(d))
+```
+
+## cosine similarity
+
+```{r]}
+library(lsa)
+dtm.t <- t(dtm.m)
+d <- cosine(dtm.t)
+d <- as.dist(1-d) 
+d
+plot(hclust(d))
+```
+
+##PCA
+
+```{r}
+pr <- prcomp(d,scale=TRUE)
+plot(pr,type="l",main="Number of Components v. Variance Explained")
+
+library(ggplot2)
+scores = as.data.frame(pr$x)
+ggplot(data = scores, aes(x = PC1, y = PC2, label = rownames(scores))) +
+  geom_hline(yintercept = 0, colour = "gray65") +
+  geom_vline(xintercept = 0, colour = "gray65") +
+  geom_text(colour = "blue", alpha = 0.8, size = 4) +
+  ggtitle("PCA Plot")
+
+rotation <- as.data.frame(pr$rotation)
+ggplot(data = rotation, aes(x = PC1, y = PC2, label = rownames(rotation))) +
+  geom_hline(yintercept = 0, colour = "gray65") +
+  geom_vline(xintercept = 0, colour = "gray65") +
+  geom_text(colour = "red", alpha = 0.8, size = 4) +
+  ggtitle("PCA Rotation Plot")
+```
+
+## MDS
+
+```{r}
+mds_scale<- cmdscale(d, k = 2)
+fit <- cmdscale(d,eig=TRUE, k=2) # k is the number of dim
+fit # view results
+
+# plot solution 
+x <- fit$points[,1]
+y <- fit$points[,2]
+plot(x, y, xlab="Coordinate 1", ylab="Coordinate 2", 
+  main="Metric	MDS",	type="n")
+text(x, y, labels = row.names(dtms), cex=.7)
+
+```
+
+Estimate K-means clusters
 
 ```{r}
 set.seed(1234)
-clust <- kmeans(dtm,6)
+clust <- kmeans(dtm.m,2)
+
+# check out clusters
+clusters <- clust$cluster
+clusters
 ```
-
-## 2. Label each cluster using computer and hand methods:**
-
-### 2.1 Use the top ten words from Diffk to label the clusters
-```{r}
-#make dataframe of cluster centers
-centers <- as.data.frame(clust$centers)
-# write a function that inputs cluser number k (e.g. k = 2) outputs the top 10 words as per the definition given
-top10words <- function(k){
-  theta.k <- centers[k,] # define theta-k, i.e.  row k of cluster centers dataframe
-  theta.notk <- colSums(centers[-(k),])/5 # define theta-not-k, i.e. rows not-k of cluster centers divided by 5 (number of clusters - 1)
-  diffk <- as.data.frame(theta.k - theta.notk) # define difference diffk
-  return(colnames(diffk[,order(diffk,decreasing=TRUE)][1:10])) # order decreasing, take top 10
-}
-keywords<- matrix(NA, nrow=10, ncol=6) # set up a matrix to contain data
-for (i in 1:6){
-  keywords[,i] <- top10words(i)
-}
-colnames(keywords) <- c("cluster 1","cluster 2","cluster 3","cluster 4","cluster 5","cluster 6")
-keywords
-```
-
-### 2.2 Sample and read texts assigned to each cluster and produce a hand label
-
-```{r}
-# Cluster 1
-set.seed(1234)
-sample(names(which(clust$cluster==1)),4) 
-docs.df$text[86]
-```
-
-Label 1 : ?
-
-```{r}
-# Cluster 2
-set.seed(1234)
-sample(names(which(clust$cluster==2)),4) 
-docs.df$title[2713]
-```
-
-Label 2: ?
-
-```{r}
-# Cluster 3
-set.seed(1234)
-sample(names(which(clust$cluster==3)),2) 
-```
-
-Label 3: ?
-
-```{r}
-# Cluster 4
-set.seed(1234)
-sample(names(which(clust$cluster==4)),4) 
-```
-
-Label 4: ?
-
-```{r}
-# Cluster 5
-set.seed(1234)
-sample(names(which(clust$cluster==5)),4) 
-docs.df$text[53]
-```
-
-Label 5: ?
-
-```{r}
-# Cluster 6
-set.seed(1234)
-sample(names(which(clust$cluster==6)),4) 
-```
-
-Label 6: ?
-
-## 3. Cluster Quality
-
-Measure the cohesiveness and exclusivity of each cluster. What is the most exclusive and most cohesive topics? What are the least? Does this align with your reading of the texts?
-
-```{r}
-dtm <- data.frame(as.matrix(dtm))
-# write a function that inputs cluster number k (e.g. k = 2) and output cohesiveness score
-cohesiveness <- function(k){
-  x <- dtm[names(which(clust$cluster==k)),keywords[k,]] # create new n x j DTM with n  = texts in cluster k and j = top 10 discriminating words in k
-  x <- apply(x,2,function(x) as.numeric(x>0)) # reform as 0/1 matrix
-  dx <- colSums(x)
-  v <-t(x) %*% x # the magic of matrix algebra to create co-occurance matrix
-  diag(v) <- 0 #replace diagonal
-  v <- (v+1)/dx # the bit inside the log
-  v <- log(v) # take the log
-  return(sum(v))
-}
-cohesiveness.scores <- vector() # set up a matrix to contain data
-for (i in 1:6){
-  cohesiveness.scores[i] <- cohesiveness(i)
-}
-cohesiveness.scores
-```
-Most cohesive:
-Least cohesive:
-
-```{r}
-# write a function that inputs cluster number k (e.g. k = 2) and output exclusivity score
-exclusivity <- function(k){
-  num <- centers[k,keywords[k,]] # "exemplar" doc for cluster k with top L words
-  denom <- colSums(centers[,keywords[k,]]) # sum of top words L over all klusters
-  x <- num/denom
-  sum(x)
-}
-
-exclusivity.scores <- vector() # set up a matrix to contain data
-for (i in 1:6){
-  exclusivity.scores[i] <- exclusivity(i)
-}
-exclusivity.scores
-```
-Most exclusive:
-Least exlusive: 
