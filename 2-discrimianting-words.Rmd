@@ -19,7 +19,7 @@ library(matrixStats) # for statistics
 
 ## 0. Prepare
 ```{r}
-docs <- Corpus(DirSource("Data/British_Fiction/Selection"))
+docs <- Corpus(DirSource("Data/British_Fiction"))
 docs
 dtm <- DocumentTermMatrix(docs,
            control = list(stopwords = T,
