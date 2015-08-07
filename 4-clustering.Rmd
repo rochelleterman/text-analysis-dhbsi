@@ -54,7 +54,6 @@ Since two novels in our corpus now have an expression as vectors, we can calcula
 ```{r}
 d <- dist(dtm.m, method = "euclidean")
 d
-plot(hclust(d))
 ```
 
 ### 1.2 Cosine Similarity
@@ -153,7 +152,7 @@ clusters
 plotcluster(d, clust$cluster)
 ```
 
-It should be noted that k-means are very sensitive to feature scaling. Notice the difference in results once we've applied a tf-idf weighting procedure. The [tf-idf](https://en.wikipedia.org/wiki/Tf%E2%80%93idf), or term frequency-inverse document frequency, is a weight that ranks the importance of a term in its contextual document corpus. The tf-idf value increases proportionally to the number of times a word appears in the document, but is offset by the frequency of the word in the corpus, which helps to adjust for the fact that some words appear more frequently in general. In other words, it places importance on terms frequent in the document but rare in the corpus.
+It should be noted that k-means are very sensitive to feature scaling. Notice the difference in results once we've applied a tf-idf weighting procedure. 
 
 ```{r}
 # tf-idf weights

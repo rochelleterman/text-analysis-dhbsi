@@ -76,8 +76,9 @@ Many text analysis applications follow a similar 'recipe' for preprecessing, inv
 4. Removing numbers
 5. Removing Stop Words, inclugind custom stop words
 6. "Stemming" words, or lemmitization. There are several stemming alogrithms. Porter is the most popular.
-7. Removing Sparse Terms
+7. Weighting features
 8. Creating a Document-Term Matrix
+9. Removing Sparse Terms
 
 See what transformations are available TM package
 
@@ -118,9 +119,6 @@ as.character(docs[[16]])
 docs <- tm_map(docs, stemDocument) # stem the document
 as.character(docs[[16]])
 ```
-
-#TODO: Add something about tf-idf weighting
-
 ### 1.3 Creating a DTM
 
 A document term matrix is simply a matrix with documents as the rows and terms as the columns and a count of the frequency of words as the cells of the matrix. We use `DocumentTermMatrix()` to create the matrix:
@@ -140,29 +138,18 @@ dtm <- DocumentTermMatrix(docs,
                           stemming=TRUE))
 ```
 
-BONUS: we can use `rTextTools` to go directly from dataframe to DTM, completing pre-processing stems automatically. If you read your corpus using Option 1 above (Section 1.1) you must first convert your corpus into a dataframe.
+One common pre-processing step that some applicaitons may call for is applying tf-idf weights. The [tf-idf](https://en.wikipedia.org/wiki/Tf%E2%80%93idf), or term frequency-inverse document frequency, is a weight that ranks the importance of a term in its contextual document corpus. The tf-idf value increases proportionally to the number of times a word appears in the document, but is offset by the frequency of the word in the corpus, which helps to adjust for the fact that some words appear more frequently in general. In other words, it places importance on terms frequent in the document but rare in the corpus.
+
+We won't be using tf-idf weghts for the rest of the unit, but you should know about it for other applications.
 
 ```{r}
-
-# Read corpus directly from dir and convert to data.frame.
-docs <- Corpus(DirSource("Data/MachText"))
-docs.df<-data.frame(text=unlist(sapply(docs, `[`, "content")), 
-    stringsAsFactors=F)
-```
-
-If you read in your corpus as a CSV, you should already have a dataframe (in this case, `docs.df`) in your environment.
-
-```{r}
-# Read corpus from csv
-docs.df <- read.csv("Data/mach.csv")
-```
-
-Now we can make out DTM in one step.
-
-```{r}
-# Convert to DTM
-dtm <- create_matrix(docs.df$text, language="english", removeNumbers=TRUE,
-                       stemWords=TRUE, toLower = TRUE, removePunctuation = TRUE)
+dtm.weighted <- DocumentTermMatrix(docs,
+           control = list(weighting =function(x) weightTfIdf(x, normalize = TRUE),
+                          stopwords = TRUE,
+                          tolower = TRUE,
+                          removeNumbers = TRUE,
+                          removePunctuation = TRUE,
+                          stemming=TRUE))
 ```
 
 ### 1.4 Exploring the DTM
@@ -257,3 +244,31 @@ dtm$doc_section <- as.factor(dtm$doc_section)
 # check to see if they're the same number of documents per author
 summary(dtm$doc_section)
 ```
+
+## 2. Bonus: rTextTools
+
+FYI: We can use `rTextTools` to go directly from dataframe to DTM, completing pre-processing stems automatically. If you read your corpus using Option 1 above (Section 1.1) you must first convert your corpus into a dataframe.
+
+```{r}
+
+# Read corpus directly from dir and convert to data.frame.
+docs <- Corpus(DirSource("Data/MachText"))
+docs.df<-data.frame(text=unlist(sapply(docs, `[`, "content")), 
+    stringsAsFactors=F)
+```
+
+If you read in your corpus as a CSV, you should already have a dataframe (in this case, `docs.df`) in your environment.
+
+```{r}
+# Read corpus from csv
+docs.df <- read.csv("Data/mach.csv")
+```
+
+Now we can make out DTM in one step.
+
+```{r}
+# Convert to DTM
+dtm <- create_matrix(docs.df$text, language="english", removeNumbers=TRUE,
+                       stemWords=TRUE, toLower = TRUE, removePunctuation = TRUE)
+```
+
