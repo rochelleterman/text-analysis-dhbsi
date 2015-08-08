@@ -182,3 +182,5 @@ st.log.odds <- sort(st.log.odds)
 head(st.log.odds,10) # top bronte words
 tail(st.log.odds,10) # top austen words
 ```
+
+### Execuse: Find discriminating words on your own corpus or one of the toy corpora in the repository.
