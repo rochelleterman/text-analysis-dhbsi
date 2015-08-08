@@ -1,5 +1,9 @@
-Sentiment Analysis
-========================================================
+---
+title: "Dictionary Methods and Sentiment Analysis"
+author: "Rochelle Terman"
+date: "August 2015"
+output: html_document
+---
 
 ### Required Packages
 
@@ -178,7 +182,7 @@ ggplot() +
                       values = c('red', 'royalblue'))
 ```
 
-## 4. Extra: More on QDAP
+## 4. Bonus: More on QDAP
 
 Besides polarity, `qdap` has other dictionaries to measure language formality, diversity, readability, etc. It also carries a range of tools to analyze and visualize discourse data, word usage, character usage, parts of speech, etc. 
 
