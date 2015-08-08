@@ -147,8 +147,10 @@ library(dplyr) # Data preparation and pipes $&gt;$</code></pre>
 </div>
 <div id="prepare-a-corpus" class="section level2">
 <h2>1. Prepare a Corpus</h2>
-<p>A corpus is a collection of texts, usually stored electronically, and from which we perform our analysis. A corpus might be a collection of news articles from Reuters or the published works of Shakespeare. Within each corpus we will have separate articles, stories, volumes, each treated as a separate entity or record. Each unit is called a “document”</p>
+<p>A corpus is a collection of texts, usually stored electronically, and from which we perform our analysis. A corpus might be a collection of news articles from Reuters or the published works of Shakespeare.</p>
+<p>Within each corpus we will have separate articles, stories, volumes, each treated as a separate entity or record. Each unit is called a “document.”</p>
 <p>Documents come in a variety of formats, but plain text is best.</p>
+<p>For this unit, we will be using a section of Machiavelli’s Prince as our corpus. Since The Prince is a monograph, we have already “chunked” the text, so that each short paragraph or “chunk” is considered a “document.”</p>
 <div id="corpus-sources-and-readers" class="section level3">
 <h3>1.1 Corpus Sources and Readers</h3>
 <p>The <code>tm</code> package supports a variety of sources and formats.</p>
@@ -459,6 +461,9 @@ docs.df &lt;- read.csv(&quot;Data/mach.csv&quot;)</code></pre>
 <pre class="r"><code># Convert to DTM
 dtm &lt;- create_matrix(docs.df$text, language=&quot;english&quot;, removeNumbers=TRUE,
                        stemWords=TRUE, toLower = TRUE, removePunctuation = TRUE)</code></pre>
+<div id="execise-make-a-dtm-out-of-your-own-corpus-or-one-of-the-toy-copora." class="section level3">
+<h3>Execise: Make a DTM out of your own corpus or one of the toy copora.</h3>
+</div>
 </div>
 
 
