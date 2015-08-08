@@ -1,7 +1,7 @@
 ---
 title: "Clustering"
 author: "Rochelle Terman"
-date: "July 31, 2015"
+date: "August 2015"
 output: html_document
 ---
 
@@ -33,10 +33,15 @@ inspect(dtm[,100:104])
 dtm.m <- as.matrix(dtm)
 ```
 
+### Credits:
+
+This material was adapted from:
+
+* Allen Riddell, [Text Analysis with Topic Models for the Humanities and Social Sciences](https://de.dariah.eu/tatom/)
+
 ## 1. Similarity and Distance
 
 Arranging our texts in a document-term matrix make available a range of exploratory procedures. For example, calculating a measure of similarity between texts becomes simple. Since each row of the document-term matrix is a sequence of a novel’s word frequencies, it is possible to put mathematical notions of similarity (or distance) between sequences of numbers in service of calculating the similarity (or distance) between any two novels. 
-
 
 ### 1.1 Euclidean Distance
 
