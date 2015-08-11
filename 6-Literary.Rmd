@@ -116,7 +116,7 @@ Part of Speech tagging is used for a great variety of tasks, including Named Ent
 
 ```{r}
 # Load corpus of novels
-documents<-Corpus(DirSource("pos-test"))
+documents<-Corpus(DirSource("Data/Toy_Corpora/POS-fiction"))
 
 # Take a peek at the novels
 # The double brackets call up different novels: 1 = A Game of Thrones; 2 = Beloved
