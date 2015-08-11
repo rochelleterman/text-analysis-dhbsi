@@ -142,7 +142,17 @@ posd <- pos(sentences)
 posd <- pos(head(sentences))
 ```
 
-The "pos" function returns a great deal of information, including not only the text itself, but full sentences in which each word appears with its tag, and counts of the tags themselves. We'll use the list of tags to compute bigram frequencies.
+The "pos" function returns a great deal of information, including not only the text itself, but full sentences in which each word appears with its tag, and counts of the tags themselves. We're especially interested in the kind of information reported in the value "POStagged".
+
+```{r}
+# visualize parts of speech per sentence
+plot(posd)
+
+# view sentences with tags in-line, list of tags by sentence, & word counts
+posd$POStagged
+```
+
+From here, we'll use the list of tags to compute bigram frequencies.
 
 ```{r}
 # Get list of tags for each sentence
