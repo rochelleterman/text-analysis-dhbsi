@@ -152,7 +152,7 @@ plot(posd)
 posd$POStagged
 ```
 
-From here, we'll use the list of tags to compute bigram frequencies.
+The in-line tags might be useful if we wished to, say, idenitify the frequencies of nouns across our texts. For this particular project, we'll use the list of tags to compute bigram frequencies.
 
 ```{r}
 # Get list of tags for each sentence
