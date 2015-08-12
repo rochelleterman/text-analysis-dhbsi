@@ -26,7 +26,7 @@ Of course, when we study poetic form we are interested not only in sounds but th
 
 ```{r}
 # Load Data
-sonnets.df <- read.csv('Data/shakes-sonnets.csv', header=FALSE, sep="\t", as.is=TRUE)
+sonnets.df <- read.csv('Data/shakes-sonnets.tsv', header=FALSE, sep="\t", as.is=TRUE)
 
 # Take a peek: Each row contains one sonnet and each column contains one line
 head(truncdf(sonnets.df),10)
@@ -83,7 +83,7 @@ The documentation indicates that the function begins with a dictionary lookup fr
 help(syllable_sum)
 
 # Load the Nettalk dictionary
-nettalk.df <- read.csv('nettalk.data.txt', header=FALSE, sep="\t", as.is=TRUE)
+nettalk.df <- read.csv('Data/nettalk.data.tsv', header=FALSE, sep="\t", as.is=TRUE)
 ```
 
 If we're going to perform our own lookups in the dictionary, we have to do some legwork that "syllable_sum" had done under the hood.
