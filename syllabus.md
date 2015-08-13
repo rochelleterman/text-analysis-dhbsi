@@ -38,7 +38,9 @@ Please read the following to get a sense of what we'll be doing:
 
 #### Tuesday, 8/18
 
-1 – 3: **Dictionary Methods** 
+1 – 3: **Discriminating Words** 
+* Methods for finding discriminating words
+* Demonstration
 * What are dictionary methods
 * Sentiment analysis
 * Political ideology measures
@@ -47,9 +49,10 @@ Please read the following to get a sense of what we'll be doing:
 
 #### Wednesday, 8/19
 
-2 – 3: **Discriminating Words** 
-* Methods for finding discriminating words
-* Demonstration
+2 – 3: **Dictionary Methods**
+* What are dictionary methods
+* Sentiment analysis
+* Political ideology measures
 
 3 – 4: **Open Work Time**
 
