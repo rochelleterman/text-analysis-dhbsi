@@ -19,7 +19,7 @@ Please read the following to get a sense of what we'll be doing:
 - R (latest version)
 - RStudio
 - Python 2.7 (Anaconda distribution)
-- Specific packages TBD
+- Required Packages: ggplot2, RTextTools (includes tm), qdap, dplyr, SnowballC, mallet, rmngb, matrixStats, lsa, fpc
 
 ### Tentative Schedule
 
