@@ -87,4 +87,4 @@ Please read the following to get a sense of what we'll be doing:
   * Closing Thought about Narrative
 
 
-11 – 12: **Closing Up, Open Work Time and Q & A.**
+1 – 4: **Closing Up, Open Work Time and Q & A.**
