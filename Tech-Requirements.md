@@ -18,7 +18,7 @@ You can download the [binary files](http://cran.r-project.org/index.html) for yo
 
 ## Java
 
-1. Latest JDK (includes JRE)
+1. [Latest JDK (includes JRE)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
 ## Required R Packages
 
