@@ -211,7 +211,6 @@ head(freq)
 wf <- data.frame(word=names(freq), freq=freq)
 head(wf)
 
-library(ggplot2)
 subset(wf, freq>50) %>%
   ggplot (aes(word, freq)) +
   geom_bar (stat ="identity") +
