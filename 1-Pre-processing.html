@@ -327,6 +327,20 @@ inspect(dtm[1:5,1000:1005])</code></pre>
 ##    3       0    0         0      0      0       0
 ##    4       0    0         0      0      0       0
 ##    5       0    0         0      0      0       0</code></pre>
+<pre class="r"><code>inspect(dtm.weighted[1:5,1000:1005])</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 5, terms: 6)&gt;&gt;
+## Non-/sparse entries: 1/29
+## Sparsity           : 97%
+## Maximal term length: 9
+## Weighting          : term frequency - inverse document frequency (normalized) (tf-idf)
+## 
+##     Terms
+## Docs highest hill himselfin hinder histor   histori
+##    1       0    0         0      0      0 0.0624636
+##    2       0    0         0      0      0 0.0000000
+##    3       0    0         0      0      0 0.0000000
+##    4       0    0         0      0      0 0.0000000
+##    5       0    0         0      0      0 0.0000000</code></pre>
 <p>We can obtain the term frequencies as a vector by converting the document term matrix into a matrix and summing the column counts:</p>
 <pre class="r"><code> # how many terms?
 freq &lt;- colSums(as.matrix(dtm))
@@ -371,7 +385,7 @@ findAssocs(dtm, &quot;war&quot;, 0.3)</code></pre>
 ##     0.32     0.30     0.30     0.30     0.30     0.30     0.30     0.30 
 ##  tempori 
 ##     0.30</code></pre>
-<pre class="r"><code># plot
+<pre class="r"><code># plot the most frequent words
 freq &lt;- sort(colSums(as.matrix(dtm)),decreasing=TRUE)
 head(freq)</code></pre>
 <pre><code>## ruler  will power   one peopl alway 
@@ -385,8 +399,7 @@ head(wf)</code></pre>
 ## one     one  168
 ## peopl peopl   98
 ## alway alway   95</code></pre>
-<pre class="r"><code>library(ggplot2)
-subset(wf, freq&gt;50) %&gt;%
+<pre class="r"><code>subset(wf, freq&gt;50) %&gt;%
   ggplot (aes(word, freq)) +
   geom_bar (stat =&quot;identity&quot;) +
   theme(axis.text.x=element_text(angle=45,hjust=1))</code></pre>
@@ -415,7 +428,7 @@ dtm # 2365 terms</code></pre>
 <p>We can convert a DTM to a matrix or data.frame in order to write to a csv, add meta data, etc.</p>
 <pre class="r"><code># coerce into dataframe
 dtm &lt;- as.data.frame(as.matrix(dtm))
-names(docs)</code></pre>
+names(docs)  # names of documents</code></pre>
 <pre><code>##   [1] &quot;1&quot;   &quot;2&quot;   &quot;3&quot;   &quot;4&quot;   &quot;5&quot;   &quot;6&quot;   &quot;7&quot;   &quot;8&quot;   &quot;9&quot;   &quot;10&quot;  &quot;11&quot; 
 ##  [12] &quot;12&quot;  &quot;13&quot;  &quot;14&quot;  &quot;15&quot;  &quot;16&quot;  &quot;17&quot;  &quot;18&quot;  &quot;19&quot;  &quot;20&quot;  &quot;21&quot;  &quot;22&quot; 
 ##  [23] &quot;23&quot;  &quot;24&quot;  &quot;25&quot;  &quot;26&quot;  &quot;27&quot;  &quot;28&quot;  &quot;29&quot;  &quot;30&quot;  &quot;31&quot;  &quot;32&quot;  &quot;33&quot; 

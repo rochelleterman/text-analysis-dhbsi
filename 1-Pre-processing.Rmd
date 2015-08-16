@@ -165,6 +165,7 @@ Let's look at the structure of our DTM.
 dim(dtm)
 # take a quick look
 inspect(dtm[1:5,1000:1005])
+inspect(dtm.weighted[1:5,1000:1005])
 ```
 
 We can obtain the term frequencies as a vector by converting the document term matrix into a matrix and summing the column counts:
@@ -204,7 +205,7 @@ findFreqTerms(dtm, lowfreq=100) # words that appear at least 100 times
 # Which words correlate with "war"?
 findAssocs(dtm, "war", 0.3)
 
-# plot
+# plot the most frequent words
 freq <- sort(colSums(as.matrix(dtm)),decreasing=TRUE)
 head(freq)
 
@@ -236,7 +237,7 @@ We can convert a DTM to a matrix or data.frame in order to write to a csv, add m
 ```{r}
 # coerce into dataframe
 dtm <- as.data.frame(as.matrix(dtm))
-names(docs)
+names(docs)  # names of documents
 
 # add fake column for section
 dtm$doc_section <- "NA"
