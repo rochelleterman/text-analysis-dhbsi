@@ -58,3 +58,12 @@ For Linux, [visit this page](http://www.oracle.com/technetwork/java/javase/downl
 15. wordcloud # to visualize wordclouds
 16. rJava # dependency for mallet
 
+#### Installation
+
+To install these packages, you can open RStudio and use the command `install.packages()` in the console. For example, to install the `tm` package, you would type:
+```{r}
+install.packages('tm')
+```
+Make sure to use quotation marks around the name of the package.
+
+If RStudio returns an error message, go to "Preferences" and check the "Packages" section. Under "CRAN Mirror," if no mirror is selected, choose "Global (CDN) - RStudio". Otherwise, check your internet connection.
