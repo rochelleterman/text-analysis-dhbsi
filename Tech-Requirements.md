@@ -18,7 +18,25 @@ You can download the [binary files](http://cran.r-project.org/index.html) for yo
 
 ## Java
 
-1. [Latest JDK (includes JRE)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+Make sure that your Java Runtime-Environment (JRE) installation is up to date. Your JRE version should be at least 1.7.
+
+####Windows
+
+For Windows, [visit this page](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) to download Windows x64 package of JRE JRE version 8, and then follow the installation instructions. You can browse to this website](https://www.java.com/en/download/installed.jsp
+) to test your installation. (Note: This won't work in Chrome)
+
+####Mac OS X
+
+If your OS is up-to-date, you should have at least Java 1.7. You can update your OS using Software Update.
+
+See [here](https://support.apple.com/en-us/HT202678) for more detailed information.
+
+You can browse to this website](https://www.java.com/en/download/installed.jsp
+) to test your installation. (Note: This won't work in Chrome)
+
+####Linux
+
+For Linux, [visit this page](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) to download Linux x64 package of JRE JRE version 8, and then follow the installation instructions.
 
 ## Required R Packages
 
