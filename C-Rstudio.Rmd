@@ -84,6 +84,7 @@ rm(list = ls())
 * `library("package-name")` will load a package so you can use it. It is required at the beginning of each R session.
 
 ```{r, eval = FALSE}
+install.packages(stats)
 library(stats)
 ```
 
@@ -131,78 +132,3 @@ print(experiment)
 ?mean
 ??mean
 ```
-
-#### Bonus: More about R
-
-From [Hadley Wickham](http://adv-r.had.co.nz/Introduction.html):
-
-If you are new to R, you might wonder what makes learning such a quirky language worthwhile. To me, some of the best features are:
-
-* It's free, open source, and available on every major platform. As a result, if 
-  you do your analysis in R, anyone can easily replicate it.
-
-* A massive set of packages for statistical modelling, machine learning,
-  visualisation, and importing and manipulating data. Whatever model or
-  graphic you're trying to do, chances are that someone has already tried
-  to do it. At a minimum, you can learn from their efforts.
-
-* Cutting edge tools. Researchers in statistics and machine learning will often
-  publish an R package to accompany their articles. This means immediate
-  access to the very latest statistical techniques and implementations.
-
-* Deep-seated language support for data analysis. This includes features
-  likes missing values, data frames, and subsetting.
-
-* A fantastic community. It is easy to get help from experts on the
-  [R-help mailing list](https://stat.ethz.ch/mailman/listinfo/r-help),
-  [stackoverflow](http://stackoverflow.com/questions/tagged/r),
-  or subject-specific mailing lists like
-  [R-SIG-mixed-models](https://stat.ethz.ch/mailman/listinfo/r-sig-mixed-models)
-  or [ggplot2](https://groups.google.com/forum/#!forum/ggplot2). You
-  can also connect with other R learners via
-  [twitter](https://twitter.com/search?q=%23rstats),
-  [linkedin](http://www.linkedin.com/groups/R-Project-Statistical-Computing-77616),
-  and through many local
-  [user groups](http://blog.revolutionanalytics.com/local-r-groups.html).
-
-* Powerful tools for communicating your results. R packages make it easy to
-  produce html or pdf [reports](http://yihui.name/knitr/), or create
-  [interactive websites](http://www.rstudio.com/shiny/).
-
-* A strong foundation in functional programming. The ideas of functional
-  programming are well suited to solving many of the challenges of data
-  analysis. R provides a powerful and flexible toolkit which allows
-  you to write concise yet descriptive code.
-
-* An [IDE](http://www.rstudio.com/ide/) tailored to the needs of interactive
-  data analysis and statistical programming.
-
-* Powerful metaprogramming facilities. R is not just a programming language, it
-  is also an environment for interactive data analysis. Its metaprogramming
-  capabilities allow you to write magically succinct and concise functions and
-  provide an excellent environment for designing domain-specific languages.
-
-* Designed to connect to high-performance programming languages like C,
-  Fortran, and C++.
-
-Of course, R is not perfect. R's biggest challenge is that most R users are not programmers. This means that:
-
-* Much of the R code you'll see in the wild is written in haste to solve
-  a pressing problem. As a result, code is not very elegant, fast, or easy to
-  understand. Most users do not revise their code to address these shortcomings.
-
-* Compared to other programming languages, the R community tends to be more
-  focussed on results instead of processes. Knowledge of software engineering
-  best practices is patchy: for instance, not enough R programmers use source
-  code control or automated testing.
-
-* Metaprogramming is a double-edged sword. Too many R functions use
-  tricks to reduce the amount of typing at the cost of making code that
-  is hard to understand and that can fail in unexpected ways.
-
-* Inconsistency is rife across contributed packages, even within base R.
-  You are confronted with over 20 years of evolution every time you use R. 
-  Learning R can be tough because there are many special cases to remember.
-
-* R is not a particularly fast programming language, and poorly written R code
-  can be terribly slow. R is also a profligate user of memory. 
