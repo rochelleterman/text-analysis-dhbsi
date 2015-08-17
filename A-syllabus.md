@@ -25,7 +25,7 @@ Please read the following to get a sense of what we'll be doing:
 
 #### Monday, 8/17
 
-10 – 12: **Overview of Text Methods**
+9 – 11: **Overview of Text Methods**
 
 1 – 3: **Acquiring and Preprocessing Texts**
 * Text formats
@@ -38,9 +38,14 @@ Please read the following to get a sense of what we'll be doing:
 
 #### Tuesday, 8/18
 
-1 – 3: **Discriminating Words** 
+9 - 11: **Discriminating Words** 
 * Methods for finding discriminating words
 * Demonstration
+* What are dictionary methods
+* Sentiment analysis
+* Political ideology measures
+
+1 – 3: **Dictionary Methods**
 * What are dictionary methods
 * Sentiment analysis
 * Political ideology measures
@@ -49,12 +54,7 @@ Please read the following to get a sense of what we'll be doing:
 
 #### Wednesday, 8/19
 
-2 – 3: **Dictionary Methods**
-* What are dictionary methods
-* Sentiment analysis
-* Political ideology measures
-
-3 – 4: **Open Work Time**
+2 – 4: **Open Work Time**
 
 #### Thursday, 8/20
 
