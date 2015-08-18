@@ -1,5 +1,9 @@
 ### Discriminating Words
 
+[Comparing Corpuses by Word Use](http://sappingattention.blogspot.com/2011/10/comparing-corpuses-by-word-use.html)
+
+When we want to determine whether a word is more distinctive of a one text versus another, there are two basic approaches: addition and multiplication. If a word appears in Text A twice and Text B ten times, do we care that it appears eight times more in Text B (ie measure by addition) or five times more frequently (ie measure by multiplication)? Schmidt visually explores the implications of each approach and then shows how Dunning's Log-Likelihood statistic marries these two approaches. See [response by Ted Underwood](http://tedunderwood.com/2011/11/09/identifying-the-terms-that-characterize-an-author-or-genre-why-dunnings-may-not-be-the-best-method/), experimenting with Mann-Whitney rank test as an alternative.
+
 [Prizewinners Vs. Bestsellers](http://txtlab.org/?p=494), Eva Portelance
 
 The publishing industry regularly draws a distinction among books along familiar lines: the kind of book that wins praise (“literary fiction”) and the kind that sells (“commercial fiction”). Portelance asks whether there might be a difference in the content of these books – whether their authors have categorically “different intuitions on language” – and uses discriminating words to explore that possibility.
@@ -7,6 +11,7 @@ The publishing industry regularly draws a distinction among books along familiar
 [Fightin’ Words: Lexical Feature Selection and Evaluation for Identifying the Content of Political Conflict](http://languagelog.ldc.upenn.edu/myl/Monroe.pdf), Burt Monroe, Michael Colaresi, Kevin Quinn
 
 Abstract: Entries in the burgeoning "text-as-data’"’" movement are often accompanied by lists or visualizations of how word (or other lexical feature) usage differs across some pair or set of documents. These are intended either to establish some target semantic concept (like the content of partisan frames) to estimate word-specific measures that feed forward into another analysis (like locating parties in ideological space) or both. We discuss a variety of techniques for selecting words that capture partisan, or other, differences in political speech and for evaluating the relative importance of those words. We introduce and emphasize several new approaches based on Bayesian shrinkage and regularization. We illustrate the relative utility of these approaches with analyses of partisan, gender, and distributive speech in the U.S. Senate. 
+
 
 ### Sentiment Analysis
 
