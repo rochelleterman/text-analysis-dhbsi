@@ -196,6 +196,12 @@ tail(table(freq),15)
 plot(table(freq))
 ```
 
+**Bonus**: reorder columns of DTM to show most frequent terms first
+
+```{r}
+dtm.ordered <- dtm[,order(freq, decreasing = T)]
+inspect(dtm.ordered[1:5,1:5])
+```
 Exploring word frequences
 
 ```{r}
