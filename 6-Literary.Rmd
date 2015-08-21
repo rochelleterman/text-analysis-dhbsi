@@ -77,8 +77,17 @@ eighth_syll
 # Get those stats
 median(eighth_syll, na.rm = T)
 IQR(eighth_syll, na.rm = T)
-```
 
+get.iqr <- function(poem){
+  sonn <- unlist(sonnets.df[poem,])
+  syll <- syllable_sum(sonn)
+  return(IQR(syll, na.rm = T))
+}
+
+seq <- 1:154
+x <- sapply(seq, get.iqr)
+which(x >= 1)
+```
 
 EXERCISE: Find another sonnet that has an IQR greater than 0.
 
