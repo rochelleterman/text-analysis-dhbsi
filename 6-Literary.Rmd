@@ -57,19 +57,39 @@ Note that when we checked all_sylls, r had introduced an "NA" wherever it had ex
 # Median syllable count (Half of all counts above, half below)
 median(all_sylls, na.rm=TRUE)
 
+# Max/Min syllable counts
+range(all_sylls, na.rm=TRUE)
+
 # Inter-Quartile Range (Difference across the middle fifty-percent of all counts)
 IQR(all_sylls, na.rm=TRUE)
 ```
 Let's look more closely at just one sonnet to see what's happening under the hood.
 
 ```{r}
-# Get a list of lines in the eighth sonnet
-eighth_sonn = unlist(sonnets.df[8,])
+# Get a vector of lines in the eighth sonnet
+eighth_sonn <- unlist(sonnets.df[8,])
+eighth_sonn
+
+# Take a look at the syllable counts
+eighth_syll <- syllable_sum(eighth_sonn)
+eighth_syll
+
+# Get those stats
+median(eighth_syll, na.rm = T)
+IQR(eighth_syll, na.rm = T)
 ```
+
+
+EXERCISE: Find another sonnet that has an IQR greater than 0.
+
 
 "syllable_sum" relies on a broader function called "syllable_count" that gives some more information.
 
 ```{r}
+
+# Check the first line
+eighth_sonn[[1]]
+
 # Get syllable information for just the first line.
 syllable_count(eighth_sonn[[1]])
 ```
@@ -84,16 +104,24 @@ help(syllable_sum)
 
 # Load the Nettalk dictionary
 nettalk.df <- read.csv('Data/nettalk.data.tsv', header=FALSE, sep="\t", as.is=TRUE)
+
+# Take a look
+head(nettalk.df)
 ```
 
 If we're going to perform our own lookups in the dictionary, we have to do some legwork that "syllable_sum" had done under the hood.
 
 ```{r}
 # Tokenize the first line of the eighth sonnet
-tokens <- sapply(eighth_sonn[[1]], function(x) gsub("[[:punct:]]", "", tolower(MC_tokenizer(x))) )
+tokens <- gsub("[[:punct:]]", " ", eighth_sonn[[1]])
+tokens <- MC_tokenizer(tokens)
+tokens <- tolower(tokens)
 
-# Look up the entry for each word
-pronunciations <- sapply(tokens, function(x) nettalk.df[nettalk.df[1]==as.vector(x)][2])
+# Create a function to look up the entry for a given word word
+dict.lookup <- function(x) nettalk.df[nettalk.df[1]==as.vector(x)][2]
+
+# Do the look-ups over each token
+pronunciations <- sapply(tokens, dict.lookup)
 
 # Check the results
 pronunciations
@@ -102,17 +130,29 @@ pronunciations
 Now that we have information about the pronunciation about *most* syllables, we can start to think about alliteration.
 
 ```{r}
-# Get the first phoneme of each word
-first.phoneme <- sapply(pronunciations, function(x) substr(x,1,1))
+# Create a function to get the first phoneme of each word
+initial <- function(x) substr(x,1,1)
+
+# Get the first phoneme from each word's pronunciation
+first.phoneme <- sapply(pronunciations, initial)
 
 # Count the frequency of each phoneme
 table(first.phoneme)
 ```
 
+EXERCISE: Using the table returned above, make R count the following:
+
+1. How many syllables contain alliteration?
+2. How many different alliterating sounds are there?
+
+(Hint: The table is a numeric vector.)
+
+CHALLENGE: Rewrite the script so that it returns a vector containing the number of alliterating syllables in every line of the eighth sonnet.
+
 
 ## 2. Part-of-Speech Tagging
 
-Part of Speech tagging is used for a great variety of tasks, including Named Entity Recognition (NER) which can help to identify characters in a text as well as higher order problems like determining who is the subject or object of an action. Another type of question we can ask is about the grammatical sophistication of a text. One version of this is treated as the text's "reading level," while in literature this may be thought of as interpreting an author's treatment of a subject.
+Part of Speech tagging is used for a great variety of tasks, including Named Entity Recognition (NER) which can help to identify characters in a text as well as higher order problems like determining who is the subject or object of an action. Another type of question we can ask is about the grammatical sophistication of a text. One version of this is treated as the text's "reading level," while in literature this may be thought of as the grammatical mode by which a text explores its content.
 
 ```{r}
 # Load corpus of novels
@@ -136,10 +176,17 @@ sentences <- sent_detect(one.string)
 Now that the text is divided into more grammatically meaningful units, we can start looking at Parts of Speech.
 
 ```{r}
+# Check out the POS Tags
+pos_tags()
+
 # Run Part-of-Speech tagger over the novels
 posd <- pos(sentences)
+
 # if pressed for time
 posd <- pos(head(sentences))
+
+# check it out
+posd
 ```
 
 The "pos" function returns a great deal of information, including not only the text itself, but full sentences in which each word appears with its tag, and counts of the tags themselves. We're especially interested in the kind of information reported in the value "POStagged".
@@ -152,23 +199,24 @@ plot(posd)
 posd$POStagged
 ```
 
+EXERCISE: Use R to retrive the vector of tagged sentences from 'posd'
+
+CHALLENGE: Count the number of instances of each POS tag.
+
 The in-line tags might be useful if we wished to, say, idenitify the frequencies of nouns across our texts. For this particular project, we'll use the list of tags to compute bigram frequencies.
 
 ```{r}
 # Get list of tags for each sentence
 posd.list <- posd[[2]][[2]]
 
+# Shorten tags to two characters
+posd.list<-lapply(posd.list, function(x) sapply(x, function(x) substr(x,1,2)))
+
 # Get bigrams of POS tags
-pos.grams <- sapply(posd.list, function(x) ngrams(paste(x, collapse = " "), 2))
-```
-
-We're juggling a list of lists that is slightly easier to use as a Data Frame, but we need to get to a place where we can easily count up each instance of all bigrams.
-
-```{r}
-pos.frame<-as.data.frame(pos.grams)
+pos.grams <- lapply(posd.list, function(x) ngrams(paste(x, collapse = " "), 2))
 
 # Get the list of bigrams for each sentence
-gram.list <-sapply(pos.frame, function(x) x$all_n$n_2)
+gram.list <-sapply(pos.grams, function(x) x$all_n$n_2)
 
 # Pull out all the bigrams into a single list, since we no longer are interested in sentence divisions
 gram.list <- unlist(gram.list, recursive=FALSE)
@@ -178,10 +226,24 @@ gram.list<-sapply(gram.list, function(x) paste(x, sep=' ',collapse = '-'))
 
 # Count the instances of all bigram units
 gram.counts <- as.vector(table(gram.list))
+
+# Take a look
+gram.counts
 ```
 
-And now that we have counted the total instances of each bigram, we can calculate the degree of grammatical entropy -- something like its complexity -- using Shannon's formula for informational entropy.
+And now that we have counted the total instances of each bigram, we can calculate the degree of grammatical entropy -- something like its complexity -- using Shannon's formula for informational entropy: -SUM(p(x)*log(p(x)))
 
 ```{r}
-entropy(gram.counts)
+
+# Get the probability of randomly choosing a particular bigram from the text
+prob<-gram.counts/sum(gram.counts)
+
+# Caculate the Shannon entropy of the text
+Shannon.entropy <- -sum(log2(prob)*prob)
+Shannon.entropy
+
+# ...or we can just use the entropy function
+entropy(gram.counts, unit='log2')
 ```
+
+EXERCISE: Find the grammatical entropy of a pair of texts from your own corpus. How do they compare to one another?
