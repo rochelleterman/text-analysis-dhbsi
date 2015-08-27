@@ -40,15 +40,13 @@ Please read the following to get a sense of what we'll be doing:
 
 9 - 11: **Discriminating Words** 
 * Methods for finding discriminating words
-* Demonstration
-* What are dictionary methods
-* Sentiment analysis
-* Political ideology measures
+* Demonstration on 2 categories
+* Demonstation on >2 categories
 
 1 – 3: **Dictionary Methods**
 * What are dictionary methods
 * Sentiment analysis
-* Political ideology measures
+* Demonstration with several applications
 
 3 – 4: **Open Work Time**
 
