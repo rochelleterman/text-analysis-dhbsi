@@ -1,6 +1,6 @@
-# Computational Text Analysis
+# Computational Text Analysis Workshop
 
-## Materials prepared for the [2015 Digital Humanities @ Berkeley Summer Institute](http://digitalhumanities.berkeley.edu/summer-institute-2015/)
+### Prepared for the [2015 Digital Humanities @ Berkeley Summer Institute](http://digitalhumanities.berkeley.edu/summer-institute-2015/)
 
 Prepared by:
 
