@@ -17,7 +17,7 @@ See the entire syllabus [here](A-syllabus.md).
 
 ### Requirements
 
-This workship will be using the R programming language. See the software requirements [here]((B-Tech-Requirements.md).
+This workship will be using the R programming language. See the software requirements [here](B-Tech-Requirements.md).
 
 Students are strongly encourged to complete [this brief tutorial](https://www.codeschool.com/courses/try-r) to learn the basic syntax of the R programming language.
 
