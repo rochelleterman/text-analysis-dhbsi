@@ -10,7 +10,7 @@ output: html_document
 First let's load our required packages.
 
 ```{r}
-setwd("~/Dropbox/berkeley/Dissertation/Data and Analyais/Git Repos/text-analysis-dhbsi")
+setwd("~/Dropbox/berkeley/Git-Repos/text-analysis-dhbsi")
 rm(list=ls())
 library(tm)
 library(RTextTools)

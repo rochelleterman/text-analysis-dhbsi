@@ -9,7 +9,7 @@ output: html_document
 
 ```{r}
 rm(list=ls())
-setwd("~/Dropbox/berkeley/Dissertation/Data\ and\ Analyais/Git\ Repos/text-analysis-dhbsi")
+setwd("~/Dropbox/berkeley/Git-Repos/text-analysis-dhbsi")
 
 library(tm)
 library(RTextTools) # a machine learning package for text classification written in R

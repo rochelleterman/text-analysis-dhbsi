@@ -9,7 +9,7 @@ output: html_document
 
 ```{r}
 rm(list=ls())
-setwd("~/Dropbox/berkeley/Dissertation/Data\ and\ Analyais/Git\ Repos/text-analysis-dhbsi")
+setwd("~/Dropbox/berkeley/Git-Repos/text-analysis-dhbsi")
 
 library(qdap) # quantiative discourse analysis of transcripts
 library(ggplot2) # plotting discourse data
