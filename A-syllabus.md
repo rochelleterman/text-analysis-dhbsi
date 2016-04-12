@@ -1,6 +1,6 @@
 ### Overview
 
-This course introduces students to modern quantitative text analysis techniques, with the ultimate goal of providing the skills necessary to apply the methods in their own research. We will use the open source programming language `R`.
+This course introduces students to modern quantitative text analysis techniques, with the ultimate goal of providing the skills necessary to apply the methods in their own research. We will use the open source programming language `R`. Demonstration corpora are provided. 
 
 ### Prerequisites
 
