@@ -40,23 +40,24 @@ For Linux, [visit this page](http://www.oracle.com/technetwork/java/javase/downl
 
 ## Required R Packages
 
-1. tm # text mining in R
-2. RTextTools # a machine learning package for text classification 
-3. qdap # quantiative discourse analysis
-4. qdapDictionaries
-4. entropy # tools applying Information Theory 
-5. dplyr # data preparation and pipes $>$
-6. ggplot2 # for plotting
-7. SnowballC # for stemming
-8. matrixStats # for stats
-9. data.table # for easier data manipulation
-10. scales # to help us plot
-11. lsa # latent semantic analysis
-12. cluster # for clustering analysis
-13. fpc # flexible procedures for clustering
-14. mallet # a wrapper around the Java machine learning tool MALLET
-15. wordcloud # to visualize wordclouds
-16. rJava # dependency for mallet
+1. `tm` # text mining in R
+2. `RTextTools` # a machine learning package for text classification 
+3. `qdap` # quantiative discourse analysis
+4. `qdapDictionaries` # for sentiment analysis, etc
+4. `entropy` # tools applying Information Theory 
+5. `dplyr` # data preparation and pipes $>$
+6. `ggplot2` # for plotting
+7. `SnowballC` # for stemming
+8. `matrixStats` # for stats
+9. `data.table` # for easier data manipulation
+10. `scales` # to help us plot
+11. `lsa` # latent semantic analysis
+12. `cluster` # for clustering analysis
+13. `fpc` # flexible procedures for clustering
+14. `mallet` # a wrapper around the Java machine learning tool MALLET
+15. `wordcloud` # to visualize wordclouds
+16. `rJava` # dependency for mallet
+17. Any dependencies to the packages above.
 
 #### Installation
 

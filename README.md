@@ -1,8 +1,10 @@
 # Computational Text Analysis Workshop
 
-### Prepared for the [2015 Digital Humanities @ Berkeley Summer Institute](http://digitalhumanities.berkeley.edu/summer-institute-2015/)
+### About
 
-This series of workshops will focus on working with textual data. Participants will be introduced to tools for computational text analysis using a toy corpus of documents provided by the instructor. We will discuss some of the methodological concerns that accompany these computational methods.
+This workshop was originally prepared for the [2015 Digital Humanities @ Berkeley Summer Institute](http://digitalhumanities.berkeley.edu/summer-institute-2015/). It has since been taught elsewhere.
+
+This course introduces students to modern quantitative text analysis techniques, with the ultimate goal of providing the skills necessary to apply the methods in their own research. We will use the open source programming language `R`. Demonstration corpora are provided. 
 
 ### Topics Covered
 
@@ -19,10 +21,7 @@ See the entire syllabus [here](A-syllabus.md).
 
 This workship will be using the R programming language. See the software requirements [here](B-Tech-Requirements.md).
 
-Students are strongly encourged to complete [this brief tutorial](https://www.codeschool.com/courses/try-r) to learn the basic syntax of the R programming language.
+Students are strongly encouraged to complete [this brief tutorial](https://www.codeschool.com/courses/try-r) to learn the basic syntax of the R programming language.
 
-Prepared by:
-
-[Rochelle Terman](https://github.com/rochelleterman/): rterman@berkeley.edu
-
-[Teddy Rowland](https://github.com/teddyroland): edwinroland@gmail.com
+### Contact
+[Rochelle Terman](https://github.com/rochelleterman/): rterman@gmail.com
