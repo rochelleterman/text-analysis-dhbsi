@@ -2,7 +2,7 @@
 
 ## R and RStudio
 
-[R](http://www.r-project.org/) is a programming language that is especially powerful for data exploration, visualization, and statistical analysis. To interact with R, we use [RStudio](http://www.rstudio.com/.
+[R](http://www.r-project.org/) is a programming language that is especially powerful for data exploration, visualization, and statistical analysis. To interact with R, we use [RStudio](http://www.rstudio.com/).
 
 ####Windows
 
@@ -22,8 +22,7 @@ Make sure that your Java Runtime-Environment (JRE) installation is up to date. Y
 
 ####Windows
 
-For Windows, [visit this page](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) to download Windows x64 package of JRE JRE version 8, and then follow the installation instructions. You can browse to this website](https://www.java.com/en/download/installed.jsp
-) to test your installation. (Note: This won't work in Chrome)
+For Windows, [visit this page](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) to download Windows x64 package of JRE JRE version 8, and then follow the installation instructions. You can browse to this website](https://www.java.com/en/download/installed.jsp) to test your installation. (Note: This won't work in Chrome)
 
 ####Mac OS X
 
@@ -31,8 +30,7 @@ If your OS is up-to-date, you should have at least Java 1.7. You can update your
 
 See [here](https://support.apple.com/en-us/HT202678) for more detailed information.
 
-You can browse to this website](https://www.java.com/en/download/installed.jsp
-) to test your installation. (Note: This won't work in Chrome)
+You can browse to this website](https://www.java.com/en/download/installed.jsp) to test your installation. (Note: This won't work in Chrome)
 
 ####Linux
 
