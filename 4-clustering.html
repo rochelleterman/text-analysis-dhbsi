@@ -369,15 +369,7 @@ dtm &lt;- DocumentTermMatrix(docs,
                           removePunctuation = TRUE,
                           stemming=TRUE))
 
-dim(dtm)</code></pre>
-<pre><code>## [1] 3104 4405</code></pre>
-<pre class="r"><code>findFreqTerms(dtm, lowfreq = 50)</code></pre>
-<pre><code>##  [1] &quot;aid&quot;      &quot;attack&quot;   &quot;back&quot;     &quot;bush&quot;     &quot;campaign&quot; &quot;case&quot;    
-##  [7] &quot;challeng&quot; &quot;citi&quot;     &quot;clinton&quot;  &quot;court&quot;    &quot;gop&quot;      &quot;hous&quot;    
-## [13] &quot;iraq&quot;     &quot;kill&quot;     &quot;leader&quot;   &quot;nation&quot;   &quot;new&quot;      &quot;overview&quot;
-## [19] &quot;plan&quot;     &quot;polit&quot;    &quot;presid&quot;   &quot;report&quot;   &quot;say&quot;      &quot;seek&quot;    
-## [25] &quot;special&quot;  &quot;war&quot;      &quot;york&quot;</code></pre>
-<pre class="r"><code># and now normatlize it
+# and now normatlize it
 dtm.m &lt;- as.matrix(dtm)
 
 # cluster
@@ -388,6 +380,7 @@ clust &lt;- kmeans(dtm.m, 10)
 clusters &lt;- clust$cluster</code></pre>
 <p>We can intrepret and apply hand-labels to each cluster using computer and hand methods.</p>
 <p>(The following forumulation is from Justin Grimmer’s <a href="http://stanford.edu/~jgrimmer/Text14/">Text as Data</a> class)</p>
+<p>The final cluster centers are computed as the mean for each feature within each final cluster. That is, they reflect the characteristics of the “exemplar” document for each cluster.</p>
 <p>Suppose <span class="math">\(\boldsymbol{\theta}_{k}\)</span> is the cluster center for cluster <span class="math">\(k\)</span> and define <span class="math">\(\bar{\boldsymbol{\theta}}_{-k} = \frac{\sum_{j \neq k} \boldsymbol{\theta_{j}} }{K-1 }\)</span> or the average of the centers not <span class="math">\(k\)</span>.</p>
 <p>Define <span class="math">\(\text{Diff}_{k} = \boldsymbol{\theta}_{k} - \bar{\boldsymbol{\theta}}_{-k}\nonumber\)</span></p>
 <p>We can then use the top ten words from <span class="math">\(\text{Diff}_{k}\)</span> to label the clusters.</p>

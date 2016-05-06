@@ -209,9 +209,6 @@ dtm <- DocumentTermMatrix(docs,
                           removePunctuation = TRUE,
                           stemming=TRUE))
 
-dim(dtm)
-findFreqTerms(dtm, lowfreq = 50)
-
 # and now normatlize it
 dtm.m <- as.matrix(dtm)
 
@@ -227,11 +224,14 @@ We can intrepret and apply hand-labels to each cluster using computer and hand m
 
 (The following forumulation is from Justin Grimmer's [Text as Data](http://stanford.edu/~jgrimmer/Text14/) class)
 
+The final cluster centers are computed as the mean for each feature within each final cluster. That is, they reflect the characteristics of the "exemplar" document for each cluster.
+
 Suppose $\boldsymbol{\theta}_{k}$ is the cluster center for cluster $k$ and define $\bar{\boldsymbol{\theta}}_{-k} = \frac{\sum_{j \neq k} \boldsymbol{\theta_{j}}   }{K-1 }$ or the average of the centers not $k$.  
 
 Define $\text{Diff}_{k}  =  \boldsymbol{\theta}_{k} - \bar{\boldsymbol{\theta}}_{-k}\nonumber$
 
 We can then use the top ten words from $\text{Diff}_{k}$ to label the clusters. 
+
 
 ```{r}
 # make dataframe of cluster centers
