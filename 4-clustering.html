@@ -70,7 +70,7 @@ img {
 <div id="setup-environment" class="section level3">
 <h3>Setup Environment</h3>
 <p>First let’s load our required packages.</p>
-<pre class="r"><code>setwd(&quot;~/Dropbox/berkeley/Dissertation/Data and Analyais/Git Repos/text-analysis-dhbsi&quot;)
+<pre class="r"><code>setwd(&quot;~/Dropbox/berkeley/Git-Repos/text-analysis-dhbsi&quot;)
 rm(list=ls())
 library(tm)</code></pre>
 <pre><code>## Loading required package: NLP</code></pre>
@@ -208,8 +208,7 @@ d</code></pre>
 <div id="visualizing-distance-with-mds" class="section level2">
 <h2>2. Visualizing distance with MDS</h2>
 <p>It is often desirable to visualize the pairwise distances between our texts. A general approach to visualizing distances is to assign a point in a plane to each text, making sure that the distance between points is proportional to the pairwise distances we calculated. This kind of visualization is common enough that it has a name, <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">“multidimensional scaling”</a> (MDS)</p>
-<pre class="r"><code>mds_scale&lt;- cmdscale(d, k = 2)
-fit &lt;- cmdscale(d,eig=TRUE, k=2) # k is the number of dim
+<pre class="r"><code>fit &lt;- cmdscale(d,eig=TRUE, k=2) # k is the number of dim
 fit # view results</code></pre>
 <pre><code>## $points
 ##                              [,1]          [,2]
@@ -353,6 +352,111 @@ dtm.normalized[,1:5]  </code></pre>
 ##   CBronte_Villette.txt  0.000000e+00 0.000000e+00</code></pre>
 <pre class="r"><code>### YOUR CODE HERE TO CLUSTER</code></pre>
 <p>Which feature scaling worked best?</p>
+</div>
+<div id="interpreting-clusters" class="section level3">
+<h3>3.4 Interpreting Clusters</h3>
+<p>Let’s do another clustering exercise using a sample of New York Times articles, available through <code>RTextTools</code>.</p>
+<pre class="r"><code>library(RTextTools)
+data(&quot;NYTimes&quot;)
+
+docs &lt;- Corpus(VectorSource(NYTimes$Title))
+
+# let's use a fully-processed DTM.
+dtm &lt;- DocumentTermMatrix(docs,
+           control = list(tolower = TRUE,
+                          stopwords = TRUE,
+                          removeNumbers = TRUE,
+                          removePunctuation = TRUE,
+                          stemming=TRUE))
+
+dim(dtm)</code></pre>
+<pre><code>## [1] 3104 4405</code></pre>
+<pre class="r"><code>findFreqTerms(dtm, lowfreq = 50)</code></pre>
+<pre><code>##  [1] &quot;aid&quot;      &quot;attack&quot;   &quot;back&quot;     &quot;bush&quot;     &quot;campaign&quot; &quot;case&quot;    
+##  [7] &quot;challeng&quot; &quot;citi&quot;     &quot;clinton&quot;  &quot;court&quot;    &quot;gop&quot;      &quot;hous&quot;    
+## [13] &quot;iraq&quot;     &quot;kill&quot;     &quot;leader&quot;   &quot;nation&quot;   &quot;new&quot;      &quot;overview&quot;
+## [19] &quot;plan&quot;     &quot;polit&quot;    &quot;presid&quot;   &quot;report&quot;   &quot;say&quot;      &quot;seek&quot;    
+## [25] &quot;special&quot;  &quot;war&quot;      &quot;york&quot;</code></pre>
+<pre class="r"><code># and now normatlize it
+dtm.m &lt;- as.matrix(dtm)
+
+# cluster
+set.seed(0001)
+clust &lt;- kmeans(dtm.m, 10)
+
+# save clusters for later
+clusters &lt;- clust$cluster</code></pre>
+<p>We can intrepret and apply hand-labels to each cluster using computer and hand methods.</p>
+<p>(The following forumulation is from Justin Grimmer’s <a href="http://stanford.edu/~jgrimmer/Text14/">Text as Data</a> class)</p>
+<p>Suppose <span class="math">\(\boldsymbol{\theta}_{k}\)</span> is the cluster center for cluster <span class="math">\(k\)</span> and define <span class="math">\(\bar{\boldsymbol{\theta}}_{-k} = \frac{\sum_{j \neq k} \boldsymbol{\theta_{j}} }{K-1 }\)</span> or the average of the centers not <span class="math">\(k\)</span>.</p>
+<p>Define <span class="math">\(\text{Diff}_{k} = \boldsymbol{\theta}_{k} - \bar{\boldsymbol{\theta}}_{-k}\nonumber\)</span></p>
+<p>We can then use the top ten words from <span class="math">\(\text{Diff}_{k}\)</span> to label the clusters.</p>
+<pre class="r"><code># make dataframe of cluster centers
+centers &lt;- as.data.frame(clust$centers)
+centers[,1:5]</code></pre>
+<pre><code>##         abandon         abba          abc       abduct          abl
+## 1  0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+## 2  0.0007616146 0.0003808073 0.0007616146 0.0007616146 0.0007616146
+## 3  0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+## 4  0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+## 5  0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+## 6  0.0147058824 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+## 7  0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+## 8  0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+## 9  0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+## 10 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000</code></pre>
+<pre class="r"><code># first set the number of clusters
+n = max(clusters)
+
+# write a function that inputs cluser number k (e.g. k = 2) outputs the top 10 words
+top10words &lt;- function(k){
+  theta.k &lt;- centers[k,] # define theta-k, i.e.  row k of cluster centers dataframe
+  theta.notk &lt;- colSums(centers[-(k),])/(n-1) # define theta-not-k, i.e. rows not-k of cluster centers divided by number of clusters - 1)
+  diffk &lt;- as.data.frame(theta.k - theta.notk) # define difference diffk
+  return(colnames(diffk[,order(diffk,decreasing=TRUE)][1:10])) # order decreasing, take top 10
+}
+
+# set up a matrix to contain data
+keywords&lt;- matrix(NA, nrow=10, ncol=n)
+
+# fill it up
+for (i in 1:10){
+  keywords[,i] &lt;- top10words(i)
+}
+
+# check em out
+keywords</code></pre>
+<pre><code>##       [,1]         [,2]      [,3]     [,4]     [,5]       [,6]       
+##  [1,] &quot;polit&quot;      &quot;new&quot;     &quot;kill&quot;   &quot;court&quot;  &quot;win&quot;      &quot;overview&quot; 
+##  [2,] &quot;dole&quot;       &quot;see&quot;     &quot;bomb&quot;   &quot;suprem&quot; &quot;seri&quot;     &quot;balkan&quot;   
+##  [3,] &quot;campaign&quot;   &quot;find&quot;    &quot;suicid&quot; &quot;rule&quot;   &quot;world&quot;    &quot;budget&quot;   
+##  [4,] &quot;debat&quot;      &quot;die&quot;     &quot;isra&quot;   &quot;case&quot;   &quot;yanke&quot;    &quot;crisi&quot;    
+##  [5,] &quot;shift&quot;      &quot;fight&quot;   &quot;bomber&quot; &quot;high&quot;   &quot;basebal&quot;  &quot;plan&quot;     
+##  [6,] &quot;memo&quot;       &quot;job&quot;     &quot;raid&quot;   &quot;appeal&quot; &quot;game&quot;     &quot;microsoft&quot;
+##  [7,] &quot;money&quot;      &quot;citi&quot;    &quot;polic&quot;  &quot;vote&quot;   &quot;yank&quot;     &quot;littleton&quot;
+##  [8,] &quot;republican&quot; &quot;may&quot;     &quot;blast&quot;  &quot;affirm&quot; &quot;vote&quot;     &quot;standoff&quot; 
+##  [9,] &quot;buchanan&quot;   &quot;rais&quot;    &quot;iraqi&quot;  &quot;hear&quot;   &quot;comeback&quot; &quot;bomb&quot;     
+## [10,] &quot;candid&quot;     &quot;baghdad&quot; &quot;offic&quot;  &quot;justic&quot; &quot;sox&quot;      &quot;top&quot;      
+##       [,7]       [,8]      [,9]       [,10]    
+##  [1,] &quot;presid&quot;   &quot;deal&quot;    &quot;polici&quot;   &quot;report&quot; 
+##  [2,] &quot;test&quot;     &quot;bank&quot;    &quot;china&quot;    &quot;special&quot;
+##  [3,] &quot;news&quot;     &quot;giant&quot;   &quot;foreign&quot;  &quot;today&quot;  
+##  [4,] &quot;bush&quot;     &quot;near&quot;    &quot;abus&quot;     &quot;iraq&quot;   
+##  [5,] &quot;analysi&quot;  &quot;billion&quot; &quot;bishop&quot;   &quot;fault&quot;  
+##  [6,] &quot;nation&quot;   &quot;share&quot;   &quot;priest&quot;   &quot;fbi&quot;    
+##  [7,] &quot;challeng&quot; &quot;chief&quot;   &quot;defend&quot;   &quot;new&quot;    
+##  [8,] &quot;fire&quot;     &quot;worker&quot;  &quot;will&quot;     &quot;secret&quot; 
+##  [9,] &quot;vice&quot;     &quot;use&quot;     &quot;set&quot;      &quot;offici&quot; 
+## [10,] &quot;civil&quot;    &quot;tobacco&quot; &quot;challeng&quot; &quot;arm&quot;</code></pre>
+<p>However, it is important to note that there is no way to find out what the clusters <em>really</em> mean, because at the end of the day, humans are the final judge. This means <strong>reading</strong> the texts in each cluster and using your brain to determine semantic meaning.</p>
+<p>To this end, we can sample and read texts assigned to each cluster to produce a hand label.</p>
+<pre class="r"><code># set the cluster you want to sample
+k  = 1
+
+# and then sample 2 titles
+as.character(NYTimes$Title[sample(which(clust$cluster==k),2)])</code></pre>
+<pre><code>## [1] &quot;A POLITICAL LIFE: The Legislative Years -- THE REPUBLICAN; As Candidate, Dole Casts Off His Feats as a Skilled Senator&quot;
+## [2] &quot;POLITICS: NEWS ANALYSIS; Going 'Outside': Bold, Maybe Perilous&quot;</code></pre>
 </div>
 </div>
 

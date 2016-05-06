@@ -88,7 +88,6 @@ d
 It is often desirable to visualize the pairwise distances between our texts. A general approach to visualizing distances is to assign a point in a plane to each text, making sure that the distance between points is proportional to the pairwise distances we calculated. This kind of visualization is common enough that it has a name, ["multidimensional scaling"](https://en.wikipedia.org/wiki/Multidimensional_scaling) (MDS)
 
 ```{r}
-mds_scale<- cmdscale(d, k = 2)
 fit <- cmdscale(d,eig=TRUE, k=2) # k is the number of dim
 fit # view results
 
@@ -192,5 +191,84 @@ dtm.normalized[,1:5]
 
 Which feature scaling worked best?
 
+### 3.4 Interpreting Clusters
 
+Let's do another clustering exercise using a sample of New York Times articles, available through `RTextTools`.
 
+```{r}
+library(RTextTools)
+data("NYTimes")
+
+docs <- Corpus(VectorSource(NYTimes$Title))
+
+# let's use a fully-processed DTM.
+dtm <- DocumentTermMatrix(docs,
+           control = list(tolower = TRUE,
+                          stopwords = TRUE,
+                          removeNumbers = TRUE,
+                          removePunctuation = TRUE,
+                          stemming=TRUE))
+
+dim(dtm)
+findFreqTerms(dtm, lowfreq = 50)
+
+# and now normatlize it
+dtm.m <- as.matrix(dtm)
+
+# cluster
+set.seed(0001)
+clust <- kmeans(dtm.m, 10)
+
+# save clusters for later
+clusters <- clust$cluster
+```
+
+We can intrepret and apply hand-labels to each cluster using computer and hand methods.
+
+(The following forumulation is from Justin Grimmer's [Text as Data](http://stanford.edu/~jgrimmer/Text14/) class)
+
+Suppose $\boldsymbol{\theta}_{k}$ is the cluster center for cluster $k$ and define $\bar{\boldsymbol{\theta}}_{-k} = \frac{\sum_{j \neq k} \boldsymbol{\theta_{j}}   }{K-1 }$ or the average of the centers not $k$.  
+
+Define $\text{Diff}_{k}  =  \boldsymbol{\theta}_{k} - \bar{\boldsymbol{\theta}}_{-k}\nonumber$
+
+We can then use the top ten words from $\text{Diff}_{k}$ to label the clusters. 
+
+```{r}
+# make dataframe of cluster centers
+centers <- as.data.frame(clust$centers)
+centers[,1:5]
+
+# first set the number of clusters
+n = max(clusters)
+
+# write a function that inputs cluser number k (e.g. k = 2) outputs the top 10 words
+top10words <- function(k){
+  theta.k <- centers[k,] # define theta-k, i.e.  row k of cluster centers dataframe
+  theta.notk <- colSums(centers[-(k),])/(n-1) # define theta-not-k, i.e. rows not-k of cluster centers divided by number of clusters - 1)
+  diffk <- as.data.frame(theta.k - theta.notk) # define difference diffk
+  return(colnames(diffk[,order(diffk,decreasing=TRUE)][1:10])) # order decreasing, take top 10
+}
+
+# set up a matrix to contain data
+keywords<- matrix(NA, nrow=10, ncol=n)
+
+# fill it up
+for (i in 1:10){
+  keywords[,i] <- top10words(i)
+}
+
+# check em out
+keywords
+```
+
+However, it is important to note that there is no way to find out what the clusters *really* mean, because at the end of the day, humans are the final judge. This means **reading** the texts in each cluster and using your brain to determine semantic meaning.
+
+To this end, we can sample and read texts assigned to each cluster to produce a hand label.
+
+```{r}
+# set the cluster you want to sample
+k  = 1
+
+# and then sample 2 titles
+as.character(NYTimes$Title[sample(which(clust$cluster==k),2)])
+```
